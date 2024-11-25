@@ -1,0 +1,98 @@
+<div class="max-w-lg mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-bold mb-4 text-center">Crear Evento</h2>
+  
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Nombre -->
+      <div>
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input
+          id="nombre"
+          formControlName="nombre"
+          type="text"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Nombre del evento"
+        />
+        <p *ngIf="eventForm.get('nombre')?.invalid && eventForm.get('nombre')?.touched"
+           class="text-red-500 text-xs mt-1">
+          El nombre es obligatorio.
+        </p>
+      </div>
+  
+      <!-- Descripción -->
+      <div>
+        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+        <textarea
+          id="descripcion"
+          formControlName="descripcion"
+          rows="3"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Descripción del evento"
+        ></textarea>
+        <p *ngIf="eventForm.get('descripcion')?.invalid && eventForm.get('descripcion')?.touched"
+           class="text-red-500 text-xs mt-1">
+          La descripción es obligatoria.
+        </p>
+      </div>
+  
+      <!-- Fecha y Hora -->
+      <div>
+        <label for="fechaHora" class="block text-sm font-medium text-gray-700">Fecha y Hora</label>
+        <input
+          id="fechaHora"
+          formControlName="fechaHora"
+          type="datetime-local"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <p *ngIf="eventForm.get('fechaHora')?.invalid && eventForm.get('fechaHora')?.touched"
+           class="text-red-500 text-xs mt-1">
+          La fecha y hora son obligatorias.
+        </p>
+      </div>
+  
+      <!-- Ubicación -->
+      <div>
+        <label for="ubicacion" class="block text-sm font-medium text-gray-700">Ubicación</label>
+        <input
+          id="ubicacion"
+          formControlName="ubicacion"
+          type="text"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Ubicación del evento"
+        />
+        <p *ngIf="eventForm.get('ubicacion')?.invalid && eventForm.get('ubicacion')?.touched"
+           class="text-red-500 text-xs mt-1">
+          La ubicación es obligatoria.
+        </p>
+      </div>
+  
+      <!-- Capacidad Máxima -->
+      <div>
+        <label for="capacidadMaxima" class="block text-sm font-medium text-gray-700">Capacidad Máxima</label>
+        <input
+          id="capacidadMaxima"
+          formControlName="capacidadMaxima"
+          type="number"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Capacidad máxima"
+        />
+        <p *ngIf="eventForm.get('capacidadMaxima')?.invalid && eventForm.get('capacidadMaxima')?.touched"
+           class="text-red-500 text-xs mt-1">
+          La capacidad máxima debe ser al menos 1.
+        </p>
+      </div>
+  
+      <!-- Mensaje de error -->
+      <p *ngIf="errorMessage" class="text-red-500 text-sm text-center">{{ errorMessage }}</p>
+  
+      <!-- Botón de envío -->
+      <button
+        type="submit"
+        [disabled]="isSubmitting || eventForm.invalid"
+        class="w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        <span *ngIf="!isSubmitting">Crear Evento</span>
+        <span *ngIf="isSubmitting">Creando...</span>
+      </button>
+    </form>
+  </div>
+  
