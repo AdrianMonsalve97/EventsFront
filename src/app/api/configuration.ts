@@ -1,5 +1,6 @@
 import { HttpParameterCodec } from '@angular/common/http';
 import { Param } from './param';
+import { environment } from '../../Environments/environment';
 
 export interface ConfigurationParameters {
     /**
@@ -71,7 +72,7 @@ export class Configuration {
         this.username = configurationParameters.username;
         this.password = configurationParameters.password;
         this.accessToken = configurationParameters.accessToken;
-        this.basePath = configurationParameters.basePath;
+        this.basePath = configurationParameters.basePath || environment.Base;
         this.withCredentials = configurationParameters.withCredentials;
         this.encoder = configurationParameters.encoder;
         if (configurationParameters.encodeParam) {

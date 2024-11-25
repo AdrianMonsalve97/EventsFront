@@ -15,7 +15,7 @@ export class EventListComponent implements OnInit {
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.eventService.apiEventEventosFiltradosGet().subscribe({
+    this.eventService.apiEventFiltrarPost().subscribe({
       next: (response) => (this.eventos = response),
       error: (err) => console.error('Error al cargar eventos:', err),
     });

@@ -12,33 +12,33 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private excludedUrls: string[] = ['/login']; 
-
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    console.log('AuthInterceptor initialized');
+  }
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Verifica si la URL está excluida
-    const isExcluded = this.excludedUrls.some((url) => request.url.includes(url));
+    console.log('Intercepting request:', request.url);
 
-    if (!isExcluded) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        request = request.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      }
-    }
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+
+    request = request.clone({
+      setHeaders: {
+        Authorization: token ? `Bearer ${token}` : '', 
+      },
+    });
+
+    console.log('Request after forcing Authorization:', request);
 
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
+        console.error('HTTP Error:', error);
         if (error.status === 401) {
           localStorage.removeItem('token');
-          this.router.navigate(['/login']); 
+          this.router.navigate(['/login']);
         }
         return throwError(() => error);
       })

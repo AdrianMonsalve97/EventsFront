@@ -42,7 +42,7 @@ export class LoginComponent {
           if (!response.error) {
             console.log('Inicio de sesión exitoso. Redirigiendo...');
             localStorage.setItem('token', response.resultado); // Guarda el token
-            this.router.navigate(['/users']); // Redirige a la ruta de eventos
+            this.router.navigate(['/events']); // Redirige a la ruta de eventos
           } else {
             this.orMessage.set(response.mensaje); // Muestra el mensaje de error del servidor
           }
