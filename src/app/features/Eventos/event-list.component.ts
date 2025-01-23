@@ -34,7 +34,6 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Cargar los eventos al iniciar
     this.cargarEventos();
   }
 

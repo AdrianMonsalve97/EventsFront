@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../api/services/auth.service';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
+  imports:[ReactiveFormsModule]
 })
 export class MenuComponent {
   constructor(private router: Router, private authService: AuthService) {}

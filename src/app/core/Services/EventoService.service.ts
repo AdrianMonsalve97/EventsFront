@@ -1,9 +1,8 @@
-import { EventService } from '../../api/api/event.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../Environments/environment';
-import { EventoFiltroDto } from '../../api/model/eventoFiltroDto';
+import {EventService} from '../../api/services/event.service';
 
 @Injectable({
   providedIn: 'root',
