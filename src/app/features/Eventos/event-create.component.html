@@ -82,7 +82,7 @@
       </div>
   
       <!-- Mensaje de error -->
-      <p *ngIf="errorMessage" class="text-red-500 text-sm text-center">{{ errorMessage }}</p>
+      <p *ngIf="errorMessage()" class="text-red-500 text-sm text-center">{{ errorMessage() }}</p>
   
       <!-- Botón de envío -->
       <button

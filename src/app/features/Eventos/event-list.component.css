@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  app-menu {
+    margin-bottom: 20px;
+  }
+  
+  router-outlet {
+    flex-grow: 1; 
+    padding: 20px; 
+  }
+  

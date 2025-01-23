@@ -1,48 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { EventService } from '../api/api/event.service';
 import { CommonModule } from '@angular/common';
-import { Evento } from '../api/client';
-import { EventoFiltroDto } from '../api/model/models';
+import { EventService } from '../../api/services/event.service';
+import { EventoFiltroDto } from '../../api/models/evento-filtro-dto';
+import { Evento } from '../../api/models/evento';
+import { ApiEventFiltrarPost$Params } from '../../api/fn/event/api-event-filtrar-post';
+import { catchError, map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { MenuComponent } from "../../Shared/Menu/menu/menu.component";
 
 @Component({
   selector: 'app-event-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MenuComponent],
   templateUrl: './event-list.component.html',
+  styleUrl: './event-list.component.css'
 })
 export class EventListComponent implements OnInit {
-  filtroForm: FormGroup = new FormBuilder().group({
-    nombre: [''],
-    ubicacion: [''],
-    fechaHora: [''],
-    capacidadMaxima: [null],
-  });
+  private readonly eventService = inject(EventService);
+  private readonly fb = inject(FormBuilder);
+
+  filtroForm: FormGroup;
   eventos: Evento[] = [];
+  errorMessage: string | null = null;
 
-  constructor(private eventService: EventService) {}
-
-  ngOnInit(): void {
-    this.cargarEventos(); // Cargar todos los eventos inicialmente
-  }
-
-  cargarEventos(filtro: EventoFiltroDto= {}): void {
-    this.eventService.apiEventFiltrarPost(filtro).subscribe({
-      next: (response) => {
-        if (!response.error) {
-          this.eventos = response.resultado;
-        } else {
-          console.error('Error en la respuesta:', response.mensaje);
-        }
-      },
-      error: (err) => console.error('Error al cargar eventos:', err),
+  constructor() {
+    this.filtroForm = this.fb.group({
+      nombre: [''],
+      ubicacion: [''],
+      fechaHora: [''],
+      capacidadMaxima: [null],
     });
   }
 
+  ngOnInit(): void {
+    // Cargar los eventos al iniciar
+    this.cargarEventos();
+  }
+
+  cargarEventos(filtro: EventoFiltroDto = {}): void {
+    const params: ApiEventFiltrarPost$Params = {
+      body: {
+        nombre: filtro.nombre,
+        ubicacion: filtro.ubicacion,
+        fechaHora: filtro.fechaHora ? new Date(filtro.fechaHora).toISOString() : null,
+        capacidadMaxima: filtro.capacidadMaxima,
+      },
+    };
+    console.log('Cargando eventos con filtro:', params.body);
+    this.eventService.apiEventFiltrarPost(params).subscribe(
+      {
+        next: (eventos) => {
+          this.eventos = eventos;
+        },
+        error: (err) => {}
+      }
+    )
+  }
+
+  // Método para aplicar el filtro desde el formulario
   aplicarFiltro(): void {
-    const filtro = this.filtroForm.value;
-    // Convierte fecha a formato ISO si es necesario
-    filtro.fechaHora = filtro.fechaHora ? new Date(filtro.fechaHora).toISOString() : null;
+    const filtro = this.filtroForm.value as EventoFiltroDto;
     this.cargarEventos(filtro);
   }
 }

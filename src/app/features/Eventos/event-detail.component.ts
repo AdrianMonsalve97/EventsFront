@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EventService } from '../api/api/event.service';
 import { CommonModule } from '@angular/common'; // Importa CommonModule para usar pipes como "date"
+import { EventService } from '../../api/services/event.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -24,7 +24,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   loadEventDetails(eventId: number): void {
-    this.eventService.apiEventEventodetallesEventoIdGet(eventId).subscribe({
+    this.eventService.apiEventEventodetallesEventoIdGet({ eventoId: eventId }).subscribe({
       next: (response) => {
         this.event = response;
       },
@@ -37,5 +37,5 @@ export class EventDetailComponent implements OnInit {
   goBack(): void {
     window.history.back();
   }
-  
+
 }

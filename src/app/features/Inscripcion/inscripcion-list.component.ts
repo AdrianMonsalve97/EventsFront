@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InscriptionService } from '../core/Services/InscriptionService.service';
+import { InscriptionService } from '../../core/Services/InscriptionService.service';
 
 @Component({
   selector: 'app-inscription-list',

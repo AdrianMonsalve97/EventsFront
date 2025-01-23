@@ -1,0 +1,47 @@
+<nav class="bg-gray-800 text-white">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between h-16">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        </div>
+        <div class="flex-1 flex items-center justify-center sm:items-center sm:justify-start">
+          <div class="flex-shrink-0">NiceEvents</div>
+          <div class="hidden sm:block sm:ml-6">
+            <div class="flex space-x-4">
+              <!-- Crear Evento Button -->
+              <button
+                routerLink="/events/crear"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Crear Evento
+              </button>
+  
+              <!-- Listar Evento Button -->
+              <button
+                routerLink="/events"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Listar Evento
+              </button>
+  
+              <!-- Inscribirse a un Evento Button -->
+              <button
+                routerLink="/events"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Inscribirse a un Evento
+              </button>
+  
+              <!-- Logout Button -->
+              <button
+                (click)="logout()"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  

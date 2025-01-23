@@ -1,40 +1,29 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
-
-    request = request.clone({
-      setHeaders: {
-        Authorization: token ? `Bearer ${token}` : '', 
-      },
+    const clonedRequest = request.clone({
+      setHeaders: token ? { Authorization: `Bearer ${token}` } : {},
     });
-    return next.handle(request).pipe(
+
+    return next.handle(clonedRequest).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('HTTP Error:', error);
+
         if (error.status === 401) {
-          localStorage.removeItem('token');
-          this.router.navigate(['/login']);
+          localStorage.removeItem('token'); 
+          this.router.navigate(['/login']); 
         }
-        return throwError(() => error);
+
+        return throwError(() => new Error(error.message || 'Error desconocido'));
       })
     );
   }

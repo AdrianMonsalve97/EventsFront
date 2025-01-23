@@ -2,8 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthenticacionService } from '../core/Services/AuthenticacionService.service';
-import { HttpStatusCode } from '@angular/common/http';
+import { AuthenticacionService } from '../../core/Services/AuthenticacionService.service';
 
 @Component({
   selector: "app-login",
@@ -21,7 +20,7 @@ export class LoginComponent {
 
   canSubmit = computed(() => !this.isSubmitting() && this.loginForm()?.valid);
 
-  constructor(private fb: FormBuilder, private authenticacionService: AuthenticacionService, private router: Router) {
+  constructor(private readonly fb: FormBuilder, private readonly authenticacionService: AuthenticacionService, private readonly router: Router) {
     this.loginForm.set(
       this.fb.group({
         correo: ['', [Validators.required, Validators.email]],
@@ -32,17 +31,18 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm()?.valid) {
-      const { correo, password } = this.loginForm()?.value;
-      this.isSubmitting.set(true);
+      const formValue = this.loginForm()?.value;
+      if (formValue) {
+        const { correo, password } = formValue;
+        this.isSubmitting.set(true);
       this.authenticacionService.login(correo, password).subscribe({
         next: (response) => {
 
-          // Verifica si el servidor indicó que el login fue exitoso
           if (!response.error) {
-            localStorage.setItem('token', response.resultado); // Guarda el token
-            this.router.navigate(['/events']); // Redirige a la ruta de eventos
+            localStorage.setItem('token', response.resultado); 
+            this.router.navigate(['/events']); 
           } else {
-            this.orMessage.set(response.mensaje); // Muestra el mensaje de error del servidor
+            this.orMessage.set(response.mensaje); 
           }
           this.isSubmitting.set(false);
         },
@@ -54,7 +54,6 @@ export class LoginComponent {
       });
     }
   }
-
   }
 
-
+}

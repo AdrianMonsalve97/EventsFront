@@ -1,9 +1,9 @@
-import { EventService } from './../api/api/event.service';
+import { EventService } from '../../api/api/event.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../Environments/environment';
-import { EventoFiltroDto } from '../api/model/eventoFiltroDto';
+import { EventoFiltroDto } from '../../api/model/eventoFiltroDto';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class EventoService {
   apiEventFiltrarPost(filtro: any = {}): Observable<Response> {
     return this.http.post<Response>(`${this.apiUrl}/eventos/filtrar`, filtro);
   }
-  
+
   listarUsuarios(): Observable<any> {
     return this.http.get(`${this.apiUrl}/Usuario/listar`);
   }
