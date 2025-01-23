@@ -15,12 +15,10 @@ export class EventoService {
     private eventservice: EventService
   ) {}
 
-  filtradoEventos(): Observable<any> {
-    const body:EventoFiltroDto = {}
-    return this.eventservice.apiEventFiltrarPost( body
-    );
+  apiEventFiltrarPost(filtro: any = {}): Observable<Response> {
+    return this.http.post<Response>(`${this.apiUrl}/eventos/filtrar`, filtro);
   }
-
+  
   listarUsuarios(): Observable<any> {
     return this.http.get(`${this.apiUrl}/Usuario/listar`);
   }

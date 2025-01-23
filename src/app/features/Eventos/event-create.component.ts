@@ -40,7 +40,6 @@ export class EventCreateComponent {
 
       this.eventService.apiEventCreareventoPost(evento).subscribe({
         next: (response) => {
-          console.log('Evento creado con éxito:', response);
           this.eventForm.reset(); // Resetear el formulario tras el envío exitoso
           this.isSubmitting = false;
         },

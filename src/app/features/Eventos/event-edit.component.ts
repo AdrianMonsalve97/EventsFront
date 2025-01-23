@@ -59,8 +59,7 @@ export class EventEditComponent implements OnInit {
         .subscribe({
           next: () => {
             this.isSubmitting = false;
-            console.log('Evento actualizado con éxito.');
-            this.router.navigate(['/events']); // Redirigir a la lista de eventos
+            this.router.navigate(['/events']); 
           },
           error: (err) => {
             this.isSubmitting = false;

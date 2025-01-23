@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../Services/UserService.service';
+import { UserService } from '../core/Services/UserService.service';
 
 @Component({
   selector: 'app-user-list',

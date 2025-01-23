@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthenticacionService } from '../Services/AuthenticacionService.service';
+import { AuthenticacionService } from '../core/Services/AuthenticacionService.service';
 import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
@@ -36,11 +36,9 @@ export class LoginComponent {
       this.isSubmitting.set(true);
       this.authenticacionService.login(correo, password).subscribe({
         next: (response) => {
-          console.log('Respuesta del servidor:', response);
-  
+
           // Verifica si el servidor indicó que el login fue exitoso
           if (!response.error) {
-            console.log('Inicio de sesión exitoso. Redirigiendo...');
             localStorage.setItem('token', response.resultado); // Guarda el token
             this.router.navigate(['/events']); // Redirige a la ruta de eventos
           } else {
@@ -56,7 +54,7 @@ export class LoginComponent {
       });
     }
   }
-  
+
   }
-  
+
 
