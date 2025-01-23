@@ -15,8 +15,8 @@
       />
       <p
         id="nombre-error"
-        *ngIf="eventForm().get('nombre')?.invalid && eventForm().get('nombre')?.touched"
-        class="text-red-500 text-xs mt-1"
+       *ngIf="eventForm.get('nombre')?.invalid && eventForm.get('nombre')?.touched"
+class="text-red-500 text-xs mt-1"
       >
         El nombre es obligatorio.
       </p>
@@ -34,7 +34,7 @@
       ></textarea>
       <p
         id="descripcion-error"
-        *ngIf="eventForm().get('descripcion')?.invalid && eventForm().get('descripcion')?.touched"
+        *ngIf="eventForm.get('descripcion')?.invalid && eventForm.get('descripcion')?.touched"
         class="text-red-500 text-xs mt-1"
       >
         La descripción es obligatoria.
@@ -53,8 +53,7 @@
       />
       <p
         id="fechaHora-error"
-        *ngIf="eventForm().get('fechaHora')?.invalid && eventForm().get('fechaHora')?.touched"
-        class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('fechaHora')?.invalid && eventForm.get('fechaHora')?.touched"        class="text-red-500 text-xs mt-1"
       >
         La fecha y hora son obligatorias.
       </p>
@@ -72,8 +71,7 @@
       />
       <p
         id="ubicacion-error"
-        *ngIf="eventForm().get('ubicacion')?.invalid && eventForm().get('ubicacion')?.touched"
-        class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('ubicacion')?.invalid && eventForm.get('ubicacion')?.touched"        class="text-red-500 text-xs mt-1"
       >
         La ubicación es obligatoria.
       </p>
@@ -92,8 +90,7 @@
       />
       <p
         id="capacidadMaxima-error"
-        *ngIf="eventForm().get('capacidadMaxima')?.invalid && eventForm().get('capacidadMaxima')?.touched"
-        class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('capacidadMaxima')?.invalid && eventForm.get('capacidadMaxima')?.touched"        class="text-red-500 text-xs mt-1"
       >
         La capacidad debe ser al menos 1.
       </p>
@@ -114,4 +111,3 @@
 </div>
 
 
-  

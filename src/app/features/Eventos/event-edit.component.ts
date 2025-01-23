@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../api/services/event.service';
 import { Evento } from '../../api/models/evento';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-event-edit',
   standalone: true,
   templateUrl: './event-edit.component.html',
-  imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, NgIf]
 })
 export class EventEditComponent implements OnInit {
   eventForm: FormGroup;
