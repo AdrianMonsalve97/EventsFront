@@ -9,7 +9,10 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
+    // Obtener el token almacenado en localStorage
+    const token = localStorage.getItem('authToken'); // Usar 'authToken' en lugar de 'token'
+
+    // Clonar la solicitud para agregar el token en los headers
     const clonedRequest = request.clone({
       setHeaders: token ? { Authorization: `Bearer ${token}` } : {},
     });
@@ -18,9 +21,13 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.error('HTTP Error:', error);
 
+        // Si el error es de tipo 401 (no autorizado)
         if (error.status === 401) {
-          localStorage.removeItem('token'); 
-          this.router.navigate(['/login']); 
+          // Eliminar el token almacenado y redirigir al login
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('userId');
+          localStorage.removeItem('userName');
+          this.router.navigate(['/login']);
         }
 
         return throwError(() => new Error(error.message || 'Error desconocido'));

@@ -1,102 +1,72 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../api/services/event.service';
-import { Evento } from '../../api/models/evento';
-import {NgIf} from '@angular/common';
+import { MenuComponent } from "../../Shared/Menu/menu/menu.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-event-edit',
+  selector: 'app-editar-evento',
   standalone: true,
   templateUrl: './event-edit.component.html',
-  imports: [ReactiveFormsModule, NgIf]
+  imports: [MenuComponent, ReactiveFormsModule,CommonModule],
 })
-export class EventEditComponent implements OnInit {
-  eventForm: FormGroup;
-  eventId: number | null = null;
-  event: Evento | null = null;
+export class EditarEventoComponent implements OnInit {
+  eventForm!: FormGroup;
   errorMessage: string | null = null;
-  isSubmitting: boolean = false;
+  isSubmitting = false;
+  eventId: number = 12;  // Supongo que tienes el ID del evento (puede venir de la ruta o de otro lugar)
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private eventService: EventService
-  ) {
+    private eventService: EventService // Servicio para obtener datos del evento
+  ) {}
+
+  ngOnInit() {
+    // Inicializar el formulario
     this.eventForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       fechaHora: ['', Validators.required],
       ubicacion: ['', Validators.required],
-      capacidadMaxima: [1, [Validators.required, Validators.min(1)]],
+      capacidadMaxima: ['', [Validators.required, Validators.min(1), Validators.max(40)]]
     });
+
+    // Obtener los datos del evento desde el servidor
+    this.eventService.apiEventEventodetallesEventoIdGet({ eventoId: this.eventId }).subscribe(
+      (response: any) => {
+        console.log(response);  // Asegúrate de que esta línea imprima los datos correctos
+        if (response) {
+          this.eventForm.patchValue({
+            nombre: response.nombre,
+            descripcion: response.descripcion,
+            fechaHora: response.fechaHora,
+            ubicacion: response.ubicacion,
+            capacidadMaxima: response.capacidadMaxima
+          });
+        }
+      },
+      (error: any) => {
+        this.errorMessage = 'Hubo un error al cargar los datos del evento';
+      }
+    );
+    
   }
 
-  ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam && !isNaN(Number(idParam)) ? Number(idParam) : null;
-
-    if (id === null) {
-      this.handleError('ID del evento inválido.');
-      return;
-    }
-
-    this.eventId = id;
-    this.loadEventDetails();
-  }
-
-  private loadEventDetails(): void {
-    if (this.eventId === null) {
-      this.handleError('No se pudo obtener el ID del evento.');
-      return;
-    }
-
-    this.eventService.apiEventEventodetallesEventoIdGet({ eventoId: this.eventId }).subscribe({
-      next: (response) => {
-        this.event = response as unknown as Evento;
-        this.errorMessage = null;
-        this.eventForm.patchValue(this.event); // Sincronizar el formulario con los datos cargados
-      },
-      error: (err) => {
-        this.handleError('No se pudo cargar los detalles del evento.', err);
-      },
-    });
-  }
-
-  onSubmit(): void {
-    if (this.eventForm.invalid) {
-      this.handleError('Por favor, completa todos los campos obligatorios.');
-      return;
-    }
-
-    this.isSubmitting = true;
-
-    if (this.eventId === null) {
-      this.handleError('ID del evento no válido.');
-      this.isSubmitting = false;
-      return;
-    }
-
-    this.eventService.apiEventActualizareventoIdPut({
-      id: this.eventId,
-      body: this.eventForm.value,
-    }).subscribe({
-      next: () => {
-        this.isSubmitting = false;
-        this.router.navigate(['/events']);
-      },
-      error: (err) => {
-        this.handleError('Error al actualizar el evento. Intenta nuevamente.', err);
-        this.isSubmitting = false;
-      },
-    });
-  }
-
-  private handleError(message: string, err?: any): void {
-    this.errorMessage = message;
-    if (err) {
-      console.error(message, err);
+  onSubmit() {
+    if (this.eventForm.valid) {
+      this.isSubmitting = true;
+      // Aquí iría la lógica para enviar los datos modificados al servidor
+      this.eventService.apiEventActualizareventoIdPut(this.eventForm.value).subscribe(
+        (response:any) => {
+          this.isSubmitting = false;
+        },
+        (error: any) => {
+          this.isSubmitting = false;
+          this.errorMessage = 'Hubo un error al guardar los cambios';
+        }
+      );
+    } else {
+      this.errorMessage = 'Por favor complete todos los campos requeridos.';
     }
   }
 }

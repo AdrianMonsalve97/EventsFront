@@ -1,4 +1,3 @@
-
 <app-menu></app-menu>
 <div class="container mx-auto">
   <!-- Título -->
@@ -8,14 +7,15 @@
   <form
     [formGroup]="filtroForm"
     (ngSubmit)="aplicarFiltro()"
-    class="bg-gray-100 p-4 rounded-md shadow-md mb-6"
+    class="bg-gray-100 p-6 rounded-lg shadow-md mb-6"
   >
-
-    <h3 class="text-lg font-semibold mb-3">Filtros</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <h3 class="text-lg font-semibold mb-4">Filtros</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Campo Nombre -->
       <div>
-        <label for="nombre" class="block text-sm font-medium">Nombre</label>
+        <label for="nombre" class="block text-sm font-medium text-gray-700"
+          >Nombre</label
+        >
         <input
           id="nombre"
           formControlName="nombre"
@@ -27,7 +27,9 @@
 
       <!-- Campo Ubicación -->
       <div>
-        <label for="ubicacion" class="block text-sm font-medium">Ciudad</label>
+        <label for="ubicacion" class="block text-sm font-medium text-gray-700"
+          >Ciudad</label
+        >
         <input
           id="ubicacion"
           formControlName="ubicacion"
@@ -39,7 +41,9 @@
 
       <!-- Campo Fecha y Hora -->
       <div>
-        <label for="fechaHora" class="block text-sm font-medium">Fecha</label>
+        <label for="fechaHora" class="block text-sm font-medium text-gray-700"
+          >Fecha</label
+        >
         <input
           id="fechaHora"
           formControlName="fechaHora"
@@ -50,7 +54,11 @@
 
       <!-- Campo Capacidad Máxima -->
       <div>
-        <label for="capacidadMaxima" class="block text-sm font-medium">Capacidad Máxima</label>
+        <label
+          for="capacidadMaxima"
+          class="block text-sm font-medium text-gray-700"
+          >Capacidad Máxima</label
+        >
         <input
           id="capacidadMaxima"
           formControlName="capacidadMaxima"
@@ -62,10 +70,10 @@
     </div>
 
     <!-- Botón para aplicar filtros -->
-    <div class="mt-4 text-right">
+    <div class="mt-6 text-right">
       <button
         type="submit"
-        class="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
+        class="bg-blue-500 text-white px-6 py-2 rounded-md shadow hover:bg-blue-600 transition-colors"
       >
         Aplicar Filtros
       </button>
@@ -73,33 +81,111 @@
   </form>
 
   <!-- Tabla de Resultados -->
-  <div class="overflow-x-auto">
-    <table class="table-auto w-full border-collapse border border-gray-200 shadow-sm">
-      <thead class="bg-gray-100">
+  <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+    <table class="min-w-full table-auto border-collapse text-sm">
+      <thead class="bg-gray-200">
         <tr>
-          <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Nombre</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Descripción</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Fecha</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Ciudad</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Capacidad</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Asistentes</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Acciones</th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            ID
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Nombre
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Descripción
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Fecha
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Ciudad
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Capacidad
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Asistentes
+          </th>
+          <th
+            class="border-b border-gray-300 px-4 py-3 text-left text-gray-600"
+          >
+            Acciones
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let evento of eventos">
-          <td class="border border-gray-300 px-4 py-2">{{ evento.id }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ evento.nombre }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ evento.descripcion }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ evento.fechaHora | date }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ evento.ubicacion }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ evento.capacidadMaxima }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ evento.asistentesRegistrados }}</td>
-          <td class="border border-gray-300 px-4 py-2">
-            <!-- Agrega aquí botones para editar o eliminar -->
-            <button class="bg-yellow-500 text-white px-3 py-1 rounded-md">Editar</button>
-            <button class="bg-red-500 text-white px-3 py-1 rounded-md">Eliminar</button>
+        <tr
+          *ngFor="let evento of eventos"
+          class="hover:bg-gray-50 transition-colors"
+        >
+          <td class="border-b border-gray-300 px-4 py-3">{{ evento.id }}</td>
+          <td class="border-b border-gray-300 px-4 py-3">
+            {{ evento.nombre }}
+          </td>
+          <td class="border-b border-gray-300 px-4 py-3">
+            {{ evento.descripcion }}
+          </td>
+          <td class="border-b border-gray-300 px-4 py-3">
+            {{ evento.fechaHora | date }}
+          </td>
+          <td class="border-b border-gray-300 px-4 py-3">
+            {{ evento.ubicacion }}
+          </td>
+          <td class="border-b border-gray-300 px-4 py-3">
+            {{ evento.capacidadMaxima }}
+          </td>
+          <td class="border-b border-gray-300 px-4 py-3">
+            {{ evento.asistentesRegistrados }}
+          </td>
+          <td class="border-b border-gray-300 px-4 py-3 text-center">
+            <!-- Agregar iconos de editar y eliminar -->
+            <button
+              class="bg-yellow-500 text-white p-2 rounded-md hover:bg-yellow-600 transition-colors"
+              (click)="redirigirAEditarEvento(evento.id!)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M17.746 2.254a2 2 0 0 0-2.828 0L5 11.586V15h3.414l10-10a2 2 0 0 0 0-2.828z"
+                />
+              </svg>
+            </button>
+
+            <button
+              class="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors ml-2"
+              (click)="borrarEvento(evento.id!)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7 3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h5a1 1 0 0 1 1 1v1H6V4a1 1 0 0 1 1-1zM4 5h12v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
           </td>
         </tr>
       </tbody>

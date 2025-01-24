@@ -1,3 +1,5 @@
+<app-menu></app-menu>
+
 <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
     <!-- Mostrar los detalles del evento -->
     <div *ngIf="event; else errorTemplate">
@@ -7,7 +9,7 @@
       <p class="mb-2"><strong>Ubicación:</strong> {{ event.ubicacion }}</p>
       <p class="mb-2"><strong>Capacidad Máxima:</strong> {{ event.capacidadMaxima }}</p>
       <p class="mb-2"><strong>Asistentes Registrados:</strong> {{ event.asistentesRegistrados }}</p>
-  
+
       <!-- Botón para regresar a la lista -->
       <button
         (click)="goBack()"
@@ -16,10 +18,9 @@
         Volver
       </button>
     </div>
-  
+
     <!-- Plantilla de error -->
     <ng-template #errorTemplate>
       <p class="text-red-500 text-center">{{ errorMessage }}</p>
     </ng-template>
   </div>
-  

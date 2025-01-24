@@ -1,21 +1,12 @@
-/* Estilos adicionales para el menú */
-nav {
-    background-color: #2d3748; /* Fondo oscuro */
-    padding: 10px;
-  }
-  
-  button {
-    padding: 10px;
-    background-color: transparent;
-    border: none;
-    color: white;
-  }
-  
-  button:hover {
-    background-color: #4a5568; /* Color al pasar el mouse */
-  }
-  
-  button:focus {
-    outline: none;
-  }
-  
+/* Asegúrate de tener estas clases en tu archivo CSS global (si es necesario) */
+.animate-dropdown {
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown-hidden {
+  display: none;
+}
+
+.dropdown-visible {
+  display: block;
+}

@@ -1,0 +1,29 @@
+/* Asegúrate de incluir la librería de animaciones */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+/* Animación de Fade In y Scale */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Aplicando la animación a todo el contenedor */
+.max-w-md {
+  animation: fadeInScale 1s ease-in-out;
+}
+
+/* Animación de Fade In para los elementos del formulario */
+input, button {
+  animation: fadeInScale 1s ease-in-out;
+}
+
+/* Animación para el botón de submit */
+button {
+  animation-delay: 0.5s;
+}

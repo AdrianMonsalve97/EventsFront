@@ -1,47 +1,141 @@
 <nav class="bg-gray-800 text-white">
-    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-      <div class="relative flex items-center justify-between h-16">
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        </div>
-        <div class="flex-1 flex items-center justify-center sm:items-center sm:justify-start">
-          <div class="flex-shrink-0">NiceEvents</div>
-          <div class="hidden sm:block sm:ml-6">
-            <div class="flex space-x-4">
-              <!-- Crear Evento Button -->
-              <button
-                routerLink="/events/crear"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Crear Evento
-              </button>
-  
-              <!-- Listar Evento Button -->
-              <button
-                routerLink="/events"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Listar Evento
-              </button>
-  
-              <!-- Inscribirse a un Evento Button -->
-              <button
-                routerLink="/events"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Inscribirse a un Evento
-              </button>
-  
-              <!-- Logout Button -->
-              <button
-                (click)="logout()"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Log Out
-              </button>
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <!-- Logo o nombre de la app -->
+      <div class="flex-shrink-0">NiceEvents</div>
+      <div class="hidden sm:block sm:ml-6">
+        <div class="flex space-x-4">
+          <!-- Dropdown Eventos -->
+          <div class="relative group">
+            <button
+              (click)="toggleDropdownEventos()"
+              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Eventos
+            </button>
+            <div
+              *ngIf="dropdownEventosOpen"
+              class="absolute right-0 z-10 mt-2 w-48 bg-gray-700 text-white rounded-md shadow-lg transition-transform transform origin-top-right"
+            >
+              <div class="py-1">
+                <button
+                  (click)="onCrearEvento()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Crear Evento
+                </button>
+                <button
+                  (click)="onListarEventos()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Listar Evento
+                </button>
+              </div>
             </div>
           </div>
+
+          <!-- Dropdown Empresa -->
+          <div class="relative group">
+            <button
+              (click)="toggleDropdownEmpresa()"
+              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Empresa
+            </button>
+            <div
+              *ngIf="dropdownEmpresaOpen"
+              class="absolute right-0 z-10 mt-2 w-48 bg-gray-700 text-white rounded-md shadow-lg transition-transform transform origin-top-right"
+            >
+              <div class="py-1">
+                <button
+                  (click)="onCrearEmpresa()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Crear Empresa
+                </button>
+                <button
+                  (click)="onListarEmpresas()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Listar Empresas
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdown Usuarios -->
+          <div class="relative group">
+            <button
+              (click)="toggleDropdownUsuarios()"
+              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Usuarios
+            </button>
+            <div
+              *ngIf="dropdownUsuariosOpen"
+              class="absolute right-0 z-10 mt-2 w-48 bg-gray-700 text-white rounded-md shadow-lg transition-transform transform origin-top-right"
+            >
+              <div class="py-1">
+                <button
+                  (click)="onCrearUsuarios()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Crear Usuario
+                </button>
+                <button
+                  (click)="onListarUsuarios()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Listar Usuarios
+                </button>
+                <button
+                  (click)="onEditarUsuarios()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Editar Usuario
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Dropdown Inscripciones -->
+          <div class="relative group">
+            <button
+              (click)="toggleDropdownInscripciones()"
+              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Inscripciones
+            </button>
+            <div
+              *ngIf="dropdownInscripcionesOpen"
+              class="absolute right-0 z-10 mt-2 w-48 bg-gray-700 text-white rounded-md shadow-lg transition-transform transform origin-top-right"
+            >
+              <div class="py-1">
+                <button
+                  (click)="onCrearInscripcion()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Crear Inscripción
+                </button>
+                <button
+                  (click)="onListarInscripciones()"
+                  class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                >
+                  Listar Inscripciones
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Botón de Log Out -->
+          <button
+            (click)="logout()"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Log Out
+          </button>
         </div>
       </div>
     </div>
-  </nav>
-  
+  </div>
+</nav>

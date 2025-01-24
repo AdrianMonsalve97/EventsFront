@@ -1,69 +1,123 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Evento } from '../../api/models/evento';
-import { Prioridad } from '../../api/models';
-import { ApiEventCreareventoPost$Params } from '../../api/fn/event/api-event-crearevento-post';
+import Swal from 'sweetalert2';
 import { EventService } from '../../api/services';
-// Asegúrate de importar correctamente el tipo
+import { AuthenticacionService } from '../../core/Services/AuthenticacionService.service';
+import { MenuComponent } from '../../Shared/Menu/menu/menu.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-event-create',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './event-create.component.html',
+  imports: [ReactiveFormsModule, CommonModule, MenuComponent],
 })
 export class EventCreateComponent {
   eventForm: FormGroup;
+  usuarioCreadorId: number;
+  usuarioCreadorNombre: string;
 
-  // Signals para manejar el estado
-  isSubmitting = signal(false);
-  errorMessage = signal<string | null>(null);
-
-  constructor(private readonly fb: FormBuilder, private readonly eventService: EventService) {
+  constructor(
+    private fb: FormBuilder,
+    private eventService: EventService,
+    private authService: AuthenticacionService
+  ) {
+    // Crear el formulario reactivo
     this.eventForm = this.fb.group({
-      nombre: ['', Validators.required],
-      descripcion: ['', Validators.required],
-      fechaHora: ['', Validators.required],
-      ubicacion: ['', Validators.required],
-      capacidadMaxima: [1, [Validators.required, Validators.min(1)]],
+      id: [0], // Por defecto en 0
+      nombre: ['' ],
+      descripcion: [''],
+      fechaHora: [new Date().toISOString()],
+      ubicacion: [''],
+      capacidadMaxima: [0],
+      prioridad: [1],
+      fechas: this.fb.group({
+        fechaInicio: [new Date().toISOString()],
+        fechaFin: [new Date().toISOString()],
+        fechaAsignacion: [new Date().toISOString()],
+        fechaCotizacion: [new Date().toISOString()],
+        fechaAprovacion: [new Date().toISOString()],
+      }),
+    });
+
+    // Obtenemos el usuario creador
+    this.usuarioCreadorId = this.authService.getUserId();
+    this.usuarioCreadorNombre = this.authService.getUserName();
+  }
+
+  // Enviar el formulario
+  onSubmit(): void {
+    if (this.eventForm.valid) {
+      const evento = this.createEventoObject();
+      this.eventService.apiEventCreareventoPost({ body: evento }).subscribe({
+        next: () => this.onSubmitSuccess(),
+        error: (err) => this.onSubmitError(err),
+      });
+    } else {
+      this.showErrorTooltip('Por favor, completa todos los campos requeridos.');
+    }
+  }
+
+  // Crear objeto del evento con el formato requerido
+  private createEventoObject() {
+    const formValues = this.eventForm.value;
+
+    return {
+      id: formValues.id,
+      nombre: formValues.nombre,
+      descripcion: formValues.descripcion,
+      fechaHora: formValues.fechaHora,
+      ubicacion: formValues.ubicacion,
+      capacidadMaxima: formValues.capacidadMaxima,
+      asistentesRegistrados: 0, // Inicializar en 0
+      prioridad: formValues.prioridad,
+      fechas: {
+        fechaInicio: formValues.fechas.fechaInicio,
+        fechaFin: formValues.fechas.fechaFin,
+        fechaAsignacion: formValues.fechas.fechaAsignacion,
+        fechaCotizacion: formValues.fechas.fechaCotizacion,
+        fechaAprovacion: formValues.fechas.fechaAprovacion,
+      },
+      usuarioCreadorId: this.usuarioCreadorId,
+      usuarioCreadorNombre: this.usuarioCreadorNombre,
+    };
+  }
+
+  // Éxito al crear el evento
+  private onSubmitSuccess(): void {
+    this.showSuccessToast('El evento se ha creado exitosamente.');
+    this.eventForm.reset(); // Limpiar el formulario
+  }
+
+  // Error al crear el evento
+  private onSubmitError(err: any): void {
+    console.error('Error al crear el evento:', err);
+    this.showErrorTooltip('Ocurrió un error al intentar crear el evento.');
+  }
+
+  // Mostrar toast de éxito
+  private showSuccessToast(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Evento creado',
+      text: message,
+      timer: 2000,
+      showConfirmButton: false,
+      position: 'top-end',
+      toast: true,
     });
   }
 
-  onSubmit(): void {
-    this.errorMessage.set(null); // Resetear el mensaje de error
-
-    if (this.eventForm.valid) {
-      const evento: Evento = {
-        nombre: this.eventForm.get('nombre')?.value,
-        descripcion: this.eventForm.get('descripcion')?.value,
-        fechaHora: this.eventForm.get('fechaHora')?.value,
-        ubicacion: this.eventForm.get('ubicacion')?.value,
-        capacidadMaxima: this.eventForm.get('capacidadMaxima')?.value,
-        prioridad: Prioridad.$1, // Asegúrate que Prioridad.$1 es válido según el tipo de Prioridad
-      };
-
-      // Crear el objeto de parámetros para el servicio
-      const params: ApiEventCreareventoPost$Params = {
-        body: evento,
-      };
-
-      this.isSubmitting.set(true);
-
-      // Llamar al servicio con los parámetros
-      this.eventService.apiEventCreareventoPost(params).subscribe({
-        next: () => {
-          this.eventForm.reset(); // Resetear el formulario tras el envío exitoso
-          this.isSubmitting.set(false);
-        },
-        error: (err) => {
-          console.error('Error al crear el evento:', err);
-          this.errorMessage.set('Ocurrió un error al intentar crear el evento.');
-          this.isSubmitting.set(false);
-        },
-      });
-    } else {
-      this.errorMessage.set('Por favor, completa todos los campos requeridos.');
-    }
+  // Mostrar tooltip de error
+  private showErrorTooltip(message: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: '¡Error!',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000,
+      position: 'top-end',
+      toast: true,
+    });
   }
+  
 }

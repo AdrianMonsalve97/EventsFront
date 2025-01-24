@@ -1,3 +1,4 @@
+<app-menu></app-menu>
 <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
   <h1 class="text-2xl font-bold mb-6 text-gray-800">Editar Evento</h1>
 
@@ -15,8 +16,8 @@
       />
       <p
         id="nombre-error"
-       *ngIf="eventForm.get('nombre')?.invalid && eventForm.get('nombre')?.touched"
-class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('nombre')?.invalid && eventForm.get('nombre')?.touched"
+        class="text-red-500 text-xs mt-1"
       >
         El nombre es obligatorio.
       </p>
@@ -53,7 +54,8 @@ class="text-red-500 text-xs mt-1"
       />
       <p
         id="fechaHora-error"
-        *ngIf="eventForm.get('fechaHora')?.invalid && eventForm.get('fechaHora')?.touched"        class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('fechaHora')?.invalid && eventForm.get('fechaHora')?.touched"
+        class="text-red-500 text-xs mt-1"
       >
         La fecha y hora son obligatorias.
       </p>
@@ -71,7 +73,8 @@ class="text-red-500 text-xs mt-1"
       />
       <p
         id="ubicacion-error"
-        *ngIf="eventForm.get('ubicacion')?.invalid && eventForm.get('ubicacion')?.touched"        class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('ubicacion')?.invalid && eventForm.get('ubicacion')?.touched"
+        class="text-red-500 text-xs mt-1"
       >
         La ubicación es obligatoria.
       </p>
@@ -90,9 +93,10 @@ class="text-red-500 text-xs mt-1"
       />
       <p
         id="capacidadMaxima-error"
-        *ngIf="eventForm.get('capacidadMaxima')?.invalid && eventForm.get('capacidadMaxima')?.touched"        class="text-red-500 text-xs mt-1"
+        *ngIf="eventForm.get('capacidadMaxima')?.invalid && eventForm.get('capacidadMaxima')?.touched"
+        class="text-red-500 text-xs mt-1"
       >
-        La capacidad debe ser al menos 1.
+        La capacidad debe ser al menos 1 y hasta 40.
       </p>
     </div>
 
@@ -109,5 +113,3 @@ class="text-red-500 text-xs mt-1"
   <!-- Mensaje de error -->
   <p *ngIf="errorMessage" class="text-red-500 text-center mt-6">{{ errorMessage }}</p>
 </div>
-
-

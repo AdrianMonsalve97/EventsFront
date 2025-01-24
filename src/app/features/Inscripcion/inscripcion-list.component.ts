@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InscriptionService } from '../../core/Services/InscriptionService.service';
+import { MenuComponent } from "../../Shared/Menu/menu/menu.component";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-inscription-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MenuComponent, ReactiveFormsModule],
   templateUrl: './inscription-list.component.html',
 })
 export class InscriptionListComponent implements OnInit {

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Importa CommonModule para usar pipes como "date"
 import { EventService } from '../../api/services/event.service';
+import {MenuComponent} from '../../Shared/Menu/menu/menu.component';
 
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule], // Agrega CommonModule aquí
+  imports: [CommonModule, MenuComponent], // Agrega CommonModule aquí
   templateUrl: './event-detail.component.html',
 })
 export class EventDetailComponent implements OnInit {
