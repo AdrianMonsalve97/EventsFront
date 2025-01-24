@@ -7,7 +7,7 @@ import { environment } from '../../Environments/environment';
   providedIn: 'root',
 })
 export class InscriptionService {
-    private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -17,5 +17,9 @@ export class InscriptionService {
 
   obtenerUsuariosInscritos(eventoId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/Inscripcion/usuariosinscritos/${eventoId}`);
+  }
+
+  obtenerEventosFiltrados(): Observable<any> {
+    return this.http.get('https://localhost:666/api/Event/eventos-filtrados');
   }
 }

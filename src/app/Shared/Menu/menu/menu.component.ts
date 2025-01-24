@@ -47,7 +47,7 @@ export class MenuComponent {
     this.router.navigate(['/crear-usuario']);
   }
   onListarUsuarios() {
-    this.router.navigate(['/listar-usuarios']);
+    this.router.navigate(['/usuarios']);
   }
   onEditarUsuarios() {
     this.router.navigate(['/editar-usuario']);
@@ -57,7 +57,7 @@ export class MenuComponent {
   }
 
   onListarInscripciones() {
-    this.router.navigate(['/listar-inscripciones']);
+    this.router.navigate(['/inscripciones']);
   }
 
   // Funciones para alternar la visibilidad de cada dropdown

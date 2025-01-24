@@ -11,12 +11,17 @@ export const routes: Routes = [
   {
     path: 'events',
     loadChildren: () => import('./features/Eventos/eventos.routes').then((m) => m.eventosRoutes),
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'inscripciones',
     loadChildren: () => import('./features/Inscripcion/inscripcion.routes').then((m) => m.inscripcionRoutes),
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./features/usuarios/usuarios.routes').then((m) => m.usuariosRoutes),
+    canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'login' },
 ];
